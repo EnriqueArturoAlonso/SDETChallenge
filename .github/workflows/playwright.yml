@@ -16,16 +16,6 @@ jobs:
     steps:
     - name: Checkout your repository code
       uses: actions/checkout@v4
-
-    - name: Create .env file
-      env:
-        BASE_URL: ${{ secrets.BASE_URL }}
-        ENV_STAGE: ${{ secrets.ENV_STAGE }}
-        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
-      run: |
-        echo "BASE_URL=$BASE_URL" >> .env
-        echo "ENV_STAGE=$ENV_STAGE" >> .env
-        echo "AUTH_TOKEN=$AUTH_TOKEN" >> .env
       
     - name: Verify inside the container
       run: |
@@ -43,6 +33,11 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
+      env:
+        # Playwright will see these as process.env.BASE_URL, etc.
+        BASE_URL: ${{ secrets.BASE_URL }}
+        ENV_STAGE: ${{ secrets.ENV_STAGE }}
+        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
       run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
