@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        environment_name: [dev]
+        environment_name: [dev, prod]
     environment: ${{ matrix.environment_name }}
     services:
       app:
