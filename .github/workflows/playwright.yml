@@ -17,11 +17,7 @@ jobs:
         image: ghcr.io/danielsilva-loanpro/sdet-interview-challenge:latest
         ports:
           - 3000:3000
-        options: >-
-          --health-cmd "wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        
     steps:
     - name: Checkout your repository code
       uses: actions/checkout@v4
