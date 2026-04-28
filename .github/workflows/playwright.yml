@@ -8,6 +8,10 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [dev]
+        max-parallel: 1   # Optional: deploy sequentially
     container:
       image: ghcr.io/danielsilva-loanpro/sdet-interview-challenge:latest
     steps:
