@@ -14,8 +14,8 @@ jobs:
     - name: Checkout your repository code
       uses: actions/checkout@v4
       
-    - name: Verify we're inside the container
-        run: |
+    - name: Verify inside the container
+      run: |
           echo "Running inside the custom container!"
           whoami
           cat /etc/os-release
