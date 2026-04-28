@@ -13,6 +13,14 @@ jobs:
     steps:
     - name: Checkout your repository code
       uses: actions/checkout@v4
+
+    - name: Create .env file
+      run: |
+        cat > .env << EOF
+        BASE_URL= ${{ secrets.BASE_URL }}
+        ENV_STAGE = ${{ secrets.ENV_STAGE }}
+        AUTH_TOKEN= ${{ secrets.AUTH_TOKEN }}
+        EOF
       
     - name: Verify inside the container
       run: |
