@@ -10,24 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        environment: [dev]
+        environment_name: [dev]
+    environment: ${{ matrix.environment_name }}
     container:
       image: ghcr.io/danielsilva-loanpro/sdet-interview-challenge:latest
     steps:
     - name: Checkout your repository code
       uses: actions/checkout@v4
-
-    - name: Create .env file
-      env:
-        BASE_URL: ${{ secrets.BASE_URL }}
-        ENV_STAGE: ${{ secrets.ENV_STAGE }}
-        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
-      run: |
-        # Use the absolute path to the workspace to ensure the file is found
-        echo "BASE_URL=${BASE_URL}" > $GITHUB_WORKSPACE/.env
-        echo "ENV_STAGE=${ENV_STAGE}" >> $GITHUB_WORKSPACE/.env
-        echo "AUTH_TOKEN=${AUTH_TOKEN}" >> $GITHUB_WORKSPACE/.env
-          
+      
     - name: Verify inside the container
       run: |
           echo "Running inside the custom container!"
@@ -44,6 +34,11 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
+      env:
+        # Playwright will see these as process.env.BASE_URL, etc.
+        BASE_URL: ${{ secrets.BASE_URL }}
+        ENV_STAGE: ${{ secrets.ENV_STAGE }}
+        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
       run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
