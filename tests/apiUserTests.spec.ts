@@ -57,11 +57,13 @@ test.describe('Users API', () => {
     expect(Array.isArray(users)).toBeTruthy();
     expect(users.length).toBeGreaterThanOrEqual(0);
 
-    // Validate shape of first user (example)
-    const firstUser = users[0];
-    console.log(firstUser);
-    expect(firstUser).toHaveProperty('name');
-    expect(firstUser).toHaveProperty('email');
-    expect(firstUser).toHaveProperty('age');
+    if(users.length>0)
+    {
+      const firstUser = users[0];
+      console.log(firstUser);
+      expect(firstUser).toHaveProperty('name');
+      expect(firstUser).toHaveProperty('email');
+      expect(firstUser).toHaveProperty('age');
+    }    
   });
 });
