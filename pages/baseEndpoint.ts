@@ -14,8 +14,7 @@ export abstract class baseEndpoint {
 
   // API Helper Methods (recommended pattern)
   protected async get(endpoint: string, options?: { params?: any; headers?: any }) {
-    console.log("ENV: "+this.baseURL)
-    console.log("Stage: "+this.baseURL)
+    console.log(`PATH: ${this.baseURL}${this.env}${endpoint}`);
     const response = await this.api.get(`${this.baseURL}${this.env}${endpoint}`, {
       params: options?.params,
       headers: options?.headers,
