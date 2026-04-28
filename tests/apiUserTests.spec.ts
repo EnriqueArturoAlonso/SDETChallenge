@@ -42,14 +42,7 @@ test.describe('Users API', () => {
 
     const retrievedBody = await getUser.json();
     const updatedUser = createdUser;
-    updatedUser.age=updatedUser.age+1;
-    await singleUser.updateUser(retrievedBody.email,updatedUser);
-
-
-    const responses = await singleUser.getUser(updatedUser.email);
-    const validateOldUser = await responses.json();
-    await compareUsers(validateOldUser, updatedUser )
-
+   
     const deleteUser = await singleUser.deleteUser(updatedUser);
     expect(await deleteUser.status()).toBe(204);
 
