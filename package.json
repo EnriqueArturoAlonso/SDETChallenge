@@ -1,0 +1,26 @@
+{
+  "name": "sdetchallenge",
+  "version": "1.0.0",
+  "description": "Repository for the SDET challenge",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EnriqueArturoAlonso/SDETChallenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/EnriqueArturoAlonso/SDETChallenge/issues"
+  },
+  "homepage": "https://github.com/EnriqueArturoAlonso/SDETChallenge#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
