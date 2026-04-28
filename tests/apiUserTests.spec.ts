@@ -6,7 +6,8 @@ import 'dotenv';
 import {
     generateRandomAge,
     generateUserEmail,
-    generateUserName
+    generateUserName, 
+    compareUsers
 } from '../utils/apiUtils';
 
 test.describe('Users API', () => {
@@ -14,7 +15,6 @@ test.describe('Users API', () => {
   // Optional: Setup / Teardown for the whole suite
   test.beforeAll(async ({ request }) => {
     console.log('🚀 Starting Users API test suite...');
-    console.log(process.env.BASE_URL);
     // You can seed data here if needed
   });
 
@@ -36,17 +36,22 @@ test.describe('Users API', () => {
     expect(response.status()).toBe(201); 
 
     const createdUser = await response.json();
-    expect(createdUser.name).toBe(newUser.name);
-    expect(createdUser.email).toBe(newUser.email);
+    await compareUsers(createdUser, newUser);
 
-    const getUser = singleUser.getUser(createdUser.email);
+    const getUser = await singleUser.getUser(createdUser.email);
 
+    const retrievedBody = await getUser.json();
     const updatedUser = createdUser;
-    updatedUser.age=22;
-    const updateUser = await singleUser.updateUser(updatedUser);
+    updatedUser.age=updatedUser.age+1;
+    await singleUser.updateUser(retrievedBody.email,updatedUser);
 
-    const deleteUser = await singleUser.deleteUser(createdUser);
-    expect(deleteUser.status()).toBe(204);
+
+    const responses = await singleUser.getUser(updatedUser.email);
+    const validateOldUser = await responses.json();
+    await compareUsers(validateOldUser, updatedUser )
+
+    const deleteUser = await singleUser.deleteUser(updatedUser);
+    expect(await deleteUser.status()).toBe(204);
 
   });
 

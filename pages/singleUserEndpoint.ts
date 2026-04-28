@@ -10,8 +10,8 @@ export class SingleUserEndpoint extends baseEndpoint {
     return response;
   }
 
-  async updateUser(user:User):Promise<APIResponse>{
-    const response = await this.put('/users/'+user.email, user);
+  async updateUser(email:string, user:User):Promise<APIResponse>{
+    const response = await this.put('/users/'+email, user);
     //confirm user got correclty updated.
     const responseBody = await response.json();
     expect(responseBody.name).toBe(user.name);
