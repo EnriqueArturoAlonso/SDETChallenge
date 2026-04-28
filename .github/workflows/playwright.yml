@@ -46,6 +46,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-          name: playwright-report-${{ inputs.environment_name }}
+          name: playwright-report-${{ matrix.environment_name }}
           path: playwright-report/
           retention-days: 30
