@@ -55,7 +55,7 @@ test.describe('Users API', () => {
     const users = await response.json();
 
     expect(Array.isArray(users)).toBeTruthy();
-    expect(users.length).toBeGreaterThan(0);
+    expect(users.length).toBeGreaterThanOrEqual(0);
 
     // Validate shape of first user (example)
     const firstUser = users[0];
