@@ -20,7 +20,7 @@ export default defineConfig({
     extraHTTPHeaders: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.API_TOKEN}`,
+      'Authentication': `${process.env.AUTH_TOKEN}`,
     },
   },
 

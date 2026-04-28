@@ -1,6 +1,6 @@
 import { baseEndpoint } from './baseEndpoint';
 import { User } from '../types/apiRequestObjects';
-import { APIResponse } from '@playwright/test';
+import { APIResponse, expect } from '@playwright/test';
 
 export class SingleUserEndpoint extends baseEndpoint {
 
@@ -12,6 +12,12 @@ export class SingleUserEndpoint extends baseEndpoint {
 
   async updateUser(user:User):Promise<APIResponse>{
     const response = await this.put('/users/'+user.email, user);
+    //confirm user got correclty updated.
+    const responseBody = await response.json();
+    expect(responseBody.name).toBe(user.name);
+    expect(responseBody.email).toBe(user.email);
+    expect(responseBody.age).toBe(user.age);
+
     return response;
   }
 

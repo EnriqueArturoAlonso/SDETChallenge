@@ -30,7 +30,7 @@ export abstract class baseEndpoint {
   }
 
   protected async put(endpoint: string, data: any) {
-    const response = await this.api.put(`${this.baseURL}${endpoint}`, { data });
+    const response = await this.api.put(`${this.baseURL}${this.env}${endpoint}`, { data });
     return response;
   }
 

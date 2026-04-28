@@ -8,7 +8,6 @@ import {
     generateUserEmail,
     generateUserName
 } from '../utils/apiUtils';
-import { create } from 'domain';
 
 test.describe('Users API', () => {
 
@@ -39,6 +38,12 @@ test.describe('Users API', () => {
     const createdUser = await response.json();
     expect(createdUser.name).toBe(newUser.name);
     expect(createdUser.email).toBe(newUser.email);
+
+    const getUser = singleUser.getUser(createdUser.email);
+
+    const updatedUser = createdUser;
+    updatedUser.age=22;
+    const updateUser = await singleUser.updateUser(updatedUser);
 
     const deleteUser = await singleUser.deleteUser(createdUser);
     expect(deleteUser.status()).toBe(204);
