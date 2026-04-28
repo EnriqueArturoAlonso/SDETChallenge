@@ -19,10 +19,10 @@ jobs:
 
     - name: Create .env file
       run: |
-        cat > .env << EOF
-        BASE_URL= ${{ secrets.BASE_URL }}
-        ENV_STAGE = ${{ secrets.ENV_STAGE }}
-        AUTH_TOKEN= ${{ secrets.AUTH_TOKEN }}
+        cat > .env << 'EOF'
+        BASE_URL=${{ secrets.BASE_URL }}
+        ENV_STAGE=${{ secrets.ENV_STAGE }}
+        AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
         EOF
       
     - name: Verify inside the container
