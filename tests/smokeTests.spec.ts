@@ -26,7 +26,7 @@ test.describe('Happy Path: Individual component check', async () => {
     console.log('🏁 Individual component check test suite completed.');
   });
 
-  test('POST /users - Test User Creation ', {tag:"@knownIssue"} ,async ({ request }) => {
+  test('POST /users - Test User Creation ', {tag:["@knownIssue", "@smoke"]} ,async ({ request }) => {
     const invalidUser:User = {
         name: generateUserName(),
         email: generateUserEmail(), 
@@ -64,7 +64,7 @@ test.describe('Happy Path: Individual component check', async () => {
     
   });
 
-  test('PUT /users/{email} - should modify a user', async ({ request }) => {
+  test('PUT /users/{email} - should modify a user', {tag:"@smoke"}, async ({ request }) => {
     const baseUser:User ={
         name: generateUserName(),
         age: generateRandomAge(),
@@ -109,7 +109,7 @@ test.describe('Happy Path: Individual component check', async () => {
     
   });
 
-  test('DELETE /users/{email} - Delete an existing user',{tag:"@knownIssue"} ,async ({ request }) => {
+  test('DELETE /users/{email} - Delete an existing user',{tag:["@knownIssue", "@smoke"]} ,async ({ request }) => {
 
     const baseUser:User ={
         name: generateUserName(),
@@ -147,7 +147,7 @@ test.describe('Happy Path: Individual component check', async () => {
 
   });
 
-  test('GET /users/{email} - Delete an existing user', {tag:"@knownIssue"}, async ({ request }) => {
+  test('GET /users/{email} - Delete an existing user', {tag:["@knownIssue", "@smoke"]}, async ({ request }) => {
 
     const baseUser:User ={
         name: generateUserName(),

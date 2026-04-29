@@ -11,17 +11,15 @@ import {
 
 test.describe('Exploratory tests', async () => {
 
-  // Optional: Setup / Teardown for the whole suite
   test.beforeAll(async () => {
     console.log('🚀 Starting Users API test suite...');
-    // You can seed data here if needed
   });
 
   test.afterAll(async () => {
     console.log('🏁 Users API test suite completed.');
   });
 
-  test('POST /users - should create a new user (using invalid email)',{tag:"@knownIssue"} ,async ({ request }) => {
+  test('POST /users - should create a new user (using invalid email)',{tag:["@knownIssue", "@exploratory"]} ,async ({ request }) => {
     const newUser:User = {
       name: generateUserName(),
       email: "Thisisnotanemail", 
@@ -49,7 +47,7 @@ test.describe('Exploratory tests', async () => {
       });
   });
 
-  test('PUT /users/{email} - should not update a new user (using invalid email)', async ({ request }) => {
+  test('PUT /users/{email} - should not update a new user (using invalid email)', {tag:"@exploratory"},async ({ request }) => {
     const originalMail = generateUserEmail();
     const newUser:User = {
       name: generateUserName(),

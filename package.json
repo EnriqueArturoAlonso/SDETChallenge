@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test:all": "npx playwright test",
-    "test:smoke": "npx playwright test tests/smokeTests.spec.ts",
-    "test:e2e": "npx playwright test tests/e2eTest.spec.ts",
-    "test:exploratory": "npx playwright test tests/exploratoryTests.spec.ts",
+    "test:smoke": "npx playwright test --grep '@smoke' ",
+    "test:e2e": "npx playwright test --grep '@e2e' ",
+    "test:exploratory": "npx playwright test --grep '@exploratory' ",
     "test:knownWorking": "npx playwright test --grep-invert '@knownIssue'"
   },
   "repository": {
