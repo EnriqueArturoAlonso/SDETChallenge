@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "Repository for the SDET challenge",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:all": "npx playwright test",
+    "test:smoke": "npx playwright test tests/smokeTests.spec.ts",
+    "test:e2e": "npx playwright test tests/e2eTest.spec.ts",
+    "test:exploratory": "npx playwright test tests/exploratoryTests.spec.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EnriqueArturoAlonso/SDETChallenge.git"

@@ -4,6 +4,19 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Select the test suite to run'
+        required: true
+        type: choice
+        options:
+          - all
+          - smoke
+          - exploratory
+          - e2e
+                
 jobs:
   test:
     timeout-minutes: 60
@@ -38,11 +51,20 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+
     - name: Run Playwright tests
-      
+      if: github.event_name != 'workflow_dispatch'
       run: npx playwright test
+
+    - name: Run Selected Tests
+      # Skip if 'none' is selected or if it's not a manual trigger
+      if: github.event_name == 'workflow_dispatch' && inputs.test_type != 'none'
+      run: npm run test:${{ inputs.test_type }}
+      
+
     - uses: actions/upload-artifact@v4
       if: always()
       with:
