@@ -14,28 +14,31 @@ export abstract class baseEndpoint {
 
   // API Helper Methods (recommended pattern)
   protected async get(endpoint: string, options?: { params?: any; headers?: any }) {
-    const response = await this.api.get(`${this.baseURL}${this.env}${endpoint}`, {
+    return await this.api.get(`${this.baseURL}${this.env}${endpoint}`, {
       params: options?.params,
       headers: options?.headers,
     });
-    return response;
   }
 
   protected async post(endpoint: string, data: any, options?: { headers?: any }) {
-    const response = await this.api.post(`${this.baseURL}${this.env}${endpoint}`, {
+    return await this.api.post(`${this.baseURL}${this.env}${endpoint}`, {
       data,
       headers: options?.headers,
     });
-    return response;
   }
 
   protected async put(endpoint: string, data: any) {
-    const response = await this.api.put(`${this.baseURL}${this.env}${endpoint}`, { data });
-    return response;
+    return await this.api.put(`${this.baseURL}${this.env}${endpoint}`, { data });
   }
 
   protected async delete(endpoint: string) {
-    const response = await this.api.delete(`${this.baseURL}${this.env}${endpoint}`);
-    return response;
+    return await this.api.delete(`${this.baseURL}${this.env}${endpoint}`);
+  }
+  protected async unauthDelete(endpoint:string){
+    return await this.api.delete(`${this.baseURL}${this.env}${endpoint}`,{
+      headers:{
+        'Authentication':''
+      }
+    });
   }
 }

@@ -1,17 +1,16 @@
 import { baseEndpoint } from './baseEndpoint';
 import { User } from '../types/apiRequestObjects';
-import { APIResponse } from '@playwright/test';
+import { APIResponse, expect } from '@playwright/test';
+import { API_CODES } from '../utils/apiUtils';
 
 export class UsersPage extends baseEndpoint {
 
   // API Login (very useful for setting auth state)
   async getUsers():Promise<APIResponse> {
-    const response = await this.get('/users');
-    return response;
+    return await this.get('/users');
   }
 
   async createUser(user:User):Promise<APIResponse>{
-    const response = await this.post('/users', user);
-    return response;
+    return await this.post('/users', user);
   }
 };
