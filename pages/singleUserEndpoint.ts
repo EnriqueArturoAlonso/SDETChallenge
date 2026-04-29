@@ -11,7 +11,7 @@ export class SingleUserEndpoint extends baseEndpoint {
     
   }
 
-  async updateUser(email:string, user:User):Promise<APIResponse>{
+  async updateUser(email:string, user:Object):Promise<APIResponse>{
     return await this.put('/users/'+email, user);
   }
 

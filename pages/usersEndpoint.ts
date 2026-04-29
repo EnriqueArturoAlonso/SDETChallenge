@@ -10,7 +10,7 @@ export class UsersPage extends baseEndpoint {
     return await this.get('/users');
   }
 
-  async createUser(user:User):Promise<APIResponse>{
+  async createUser(user):Promise<APIResponse>{
     return await this.post('/users', user);
   }
 };

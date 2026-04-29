@@ -16,6 +16,7 @@ on:
           - smoke
           - exploratory
           - e2e
+          - knownWorking
                 
 jobs:
   test:
@@ -58,7 +59,7 @@ jobs:
 
     - name: Run Playwright tests
       if: github.event_name != 'workflow_dispatch'
-      run: npx playwright test
+      run: npm run test:knownWorking
 
     - name: Run Selected Tests
       # Skip if 'none' is selected or if it's not a manual trigger

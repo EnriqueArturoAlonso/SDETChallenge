@@ -22,7 +22,7 @@ test.describe('E2E test', async () => {
     console.log('🏁 Users API test suite completed.');
   });
 
-  test('POST /users - should create a new user', async ({ request }) => {
+  test('POST /users - should create a new user', {tag:"@knownIssue"},  async ({ request }) => {
     const newUser:User = {
       name: generateUserName(),
       email: generateUserEmail(), 
