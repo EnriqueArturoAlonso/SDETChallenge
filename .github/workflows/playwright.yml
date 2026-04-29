@@ -1,0 +1,73 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Select the test suite to run'
+        required: true
+        type: choice
+        options:
+          - all
+          - smoke
+          - exploratory
+          - e2e
+                
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment_name: [dev, prod]
+    environment: ${{ matrix.environment_name }}
+    services:
+      app:
+        image: ghcr.io/danielsilva-loanpro/sdet-interview-challenge:latest
+        ports:
+          - 3000:3000
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      ENV_STAGE: ${{ secrets.ENV_STAGE }}
+      AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+    steps:
+    - name: Checkout your repository code
+      uses: actions/checkout@v4
+      
+    - name: Verify inside the container
+      run: |
+          echo "Running inside the custom container!"
+          whoami
+          cat /etc/os-release
+          node --version || echo "Node not found"
+          npm --version || echo "npm not found"
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+
+    - name: Run Playwright tests
+      if: github.event_name != 'workflow_dispatch'
+      run: npx playwright test
+
+    - name: Run Selected Tests
+      # Skip if 'none' is selected or if it's not a manual trigger
+      if: github.event_name == 'workflow_dispatch' && inputs.test_type != 'none'
+      run: npm run test:${{ inputs.test_type }}
+      
+
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+          name: playwright-report-${{ matrix.environment_name }}
+          path: playwright-report/
+          retention-days: 30
