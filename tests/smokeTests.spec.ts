@@ -111,7 +111,7 @@ test.describe('Happy Path: Individual component check', async () => {
     
   });
 
-  test('DELETE /users - Delete an existing user', async ({ request }) => {
+  test('DELETE /users/{email} - Delete an existing user', async ({ request }) => {
 
     const baseUser:User ={
         name: generateUserName(),
@@ -127,11 +127,11 @@ test.describe('Happy Path: Individual component check', async () => {
         expect(await response.status()).toBe(API_CODES.SUCCESS.CREATED.code);
     });
 
-    await test.step("Attempt deletion without auth", async ()=>{
-        const response = await singleUserEndpoint.unauthDeleteUser(baseUser);
-        expect(await response.status()).toBe(API_CODES.ERRORS.UNAUTHORIZED.code);
+    await test.step("Delete actual user", async () =>{
+        const response = await singleUserEndpoint.deleteUser(baseUser);
+        expect(await response.status()).toBe(API_CODES.SUCCESS.NO_CONTENT.code);
     });
-
+    
     await test.step("Attempt deletion of Non-Existing user", async ()=>{
         const nonExisting:User ={
             name: generateUserName(),
@@ -141,11 +141,39 @@ test.describe('Happy Path: Individual component check', async () => {
         const response = await singleUserEndpoint.deleteUser(nonExisting);
         expect(await response.status()).toBe(API_CODES.ERRORS.NOT_FOUND.code);
     });
-    
-    await test.step("Delete actual user", async () =>{
-        const response = await singleUserEndpoint.deleteUser(baseUser);
-        expect(await response.status()).toBe(API_CODES.SUCCESS.NO_CONTENT.code);
+
+    await test.step("Attempt deletion without auth", async ()=>{
+        const response = await singleUserEndpoint.unauthDeleteUser(baseUser);
+        expect(await response.status()).toBe(API_CODES.ERRORS.UNAUTHORIZED.code);
     });
+
+  });
+
+  test('GET /users/{email} - Delete an existing user', async ({ request }) => {
+
+    const baseUser:User ={
+        name: generateUserName(),
+        age: generateRandomAge(),
+        email: generateUserEmail()
+    }
+
+    const usersPage= new UsersPage(request);
+    const singleUserEndpoint= new SingleUserEndpoint(request);
+
+    await test.step('Create base user', async () =>{
+        const response = await usersPage.createUser(baseUser);
+        expect(await response.status()).toBe(API_CODES.SUCCESS.CREATED.code);
+    });
+
+    await test.step('Get the newly created user', async () =>{
+        const response = await singleUserEndpoint.getUser(baseUser.email);
+        expect(await response.status()).toBe(API_CODES.SUCCESS.OK.code);
+    });
+
+    await test.step('Get the newly created user', async () =>{
+        const response = await singleUserEndpoint.getUser(baseUser.email+'invalidtext');
+        expect(await response.status()).toBe(API_CODES.ERRORS.NOT_FOUND.code);
+    })
     
   });
 });
