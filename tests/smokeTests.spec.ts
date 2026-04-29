@@ -18,10 +18,8 @@ test.describe('Happy Path: Individual component check', async () => {
         age: generateRandomAge(),
       };
       
-  // Optional: Setup / Teardown for the whole suite
   test.beforeAll(async ({ request }) => {
     console.log('🚀 Starting Individual component check test suite...');
-    // You can seed data here if needed
   });
 
   test.afterAll(async ({ request }) => {
@@ -173,7 +171,6 @@ test.describe('Happy Path: Individual component check', async () => {
     await test.step('Get an Invalid user', async () =>{
         const response = await singleUserEndpoint.getUser(baseUser.email+'invalidtext');
         expect(await response.status()).toBe(API_CODES.ERRORS.NOT_FOUND.code);
-    })
-    
+    })   
   });
 });
