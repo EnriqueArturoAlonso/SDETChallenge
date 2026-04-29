@@ -33,7 +33,7 @@ test.describe('Exploratory tests', async () => {
       });
   });
 
-  test('POST /users - should create a new user (using invalid age)', async ({ request }) => {
+  test('POST /users - should create a new user (using invalid age)', {tag:"@exploratory"}, async ({ request }) => {
     const newUser:User = {
       name: generateUserName(),
       email: generateUserEmail(), 

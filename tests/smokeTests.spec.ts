@@ -53,7 +53,7 @@ test.describe('Happy Path: Individual component check', async () => {
     });
   });
 
-  test('GET /users - should return list of users with correct structure', async ({ request }) => {
+  test('GET /users - should return list of users with correct structure', {tag:["@smoke"]}, async ({ request }) => {
     const usersPage= new UsersPage(request);
 
     await test.step('User retrieves all users', async()=>{
