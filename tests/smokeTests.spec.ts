@@ -136,7 +136,7 @@ test.describe('Happy Path: Individual component check', async () => {
         const nonExisting:User ={
             name: generateUserName(),
             age: generateRandomAge(),
-            email: generateUserEmail()
+            email: generateUserEmail()+"invalidText"
         }
         const response = await singleUserEndpoint.deleteUser(nonExisting);
         expect(await response.status()).toBe(API_CODES.ERRORS.NOT_FOUND.code);
@@ -170,7 +170,7 @@ test.describe('Happy Path: Individual component check', async () => {
         expect(await response.status()).toBe(API_CODES.SUCCESS.OK.code);
     });
 
-    await test.step('Get the newly created user', async () =>{
+    await test.step('Get an Invalid user', async () =>{
         const response = await singleUserEndpoint.getUser(baseUser.email+'invalidtext');
         expect(await response.status()).toBe(API_CODES.ERRORS.NOT_FOUND.code);
     })
