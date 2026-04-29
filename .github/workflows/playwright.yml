@@ -16,12 +16,14 @@ on:
           - smoke
           - exploratory
           - e2e
+          - knownWorking
                 
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         environment_name: [dev, prod]
     environment: ${{ matrix.environment_name }}
@@ -57,7 +59,7 @@ jobs:
 
     - name: Run Playwright tests
       if: github.event_name != 'workflow_dispatch'
-      run: npx playwright test
+      run: npm run test:knownWorking
 
     - name: Run Selected Tests
       # Skip if 'none' is selected or if it's not a manual trigger

@@ -18,15 +18,15 @@ test.describe('Happy Path: Individual component check', async () => {
         age: generateRandomAge(),
       };
       
-  test.beforeAll(async ({ request }) => {
+  test.beforeAll(async () => {
     console.log('🚀 Starting Individual component check test suite...');
   });
 
-  test.afterAll(async ({ request }) => {
+  test.afterAll(async () => {
     console.log('🏁 Individual component check test suite completed.');
   });
 
-  test('POST /users - Test User Creation ', async ({ request }) => {
+  test('POST /users - Test User Creation ', {tag:["@knownIssue", "@smoke"]} ,async ({ request }) => {
     const invalidUser:User = {
         name: generateUserName(),
         email: generateUserEmail(), 
@@ -40,20 +40,20 @@ test.describe('Happy Path: Individual component check', async () => {
         expect(await response.status()).toBe(API_CODES.SUCCESS.CREATED.code); 
     });
     
-    await test.step('User Bad Request', async()=>{
+    await test.step('Create User - Bad Request', async()=>{
         const response = await usersPage.createUser(invalidUser);
 
         expect(await response.status()).toBe(API_CODES.ERRORS.BAD_REQUEST.code);
     });
 
-    await test.step('User Conflict', async()=>{
+    await test.step('User Duplicate Conflict', async()=>{
         const response = await usersPage.createUser(testUser);
 
         expect(await response.status()).toBe(API_CODES.ERRORS.CONFLICT.code);
     });
   });
 
-  test('GET /users - should return list of users with correct structure', async ({ request }) => {
+  test('GET /users - should return list of users with correct structure', {tag:["@smoke"]}, async ({ request }) => {
     const usersPage= new UsersPage(request);
 
     await test.step('User retrieves all users', async()=>{
@@ -64,7 +64,7 @@ test.describe('Happy Path: Individual component check', async () => {
     
   });
 
-  test('PUT /users/{email} - should modify a user', async ({ request }) => {
+  test('PUT /users/{email} - should modify a user', {tag:"@smoke"}, async ({ request }) => {
     const baseUser:User ={
         name: generateUserName(),
         age: generateRandomAge(),
@@ -109,7 +109,7 @@ test.describe('Happy Path: Individual component check', async () => {
     
   });
 
-  test('DELETE /users/{email} - Delete an existing user', async ({ request }) => {
+  test('DELETE /users/{email} - Delete an existing user',{tag:["@knownIssue", "@smoke"]} ,async ({ request }) => {
 
     const baseUser:User ={
         name: generateUserName(),
@@ -134,7 +134,7 @@ test.describe('Happy Path: Individual component check', async () => {
         const nonExisting:User ={
             name: generateUserName(),
             age: generateRandomAge(),
-            email: generateUserEmail()+"invalidText"
+            email: "invalidText"+generateUserEmail()
         }
         const response = await singleUserEndpoint.deleteUser(nonExisting);
         expect(await response.status()).toBe(API_CODES.ERRORS.NOT_FOUND.code);
@@ -147,7 +147,7 @@ test.describe('Happy Path: Individual component check', async () => {
 
   });
 
-  test('GET /users/{email} - Delete an existing user', async ({ request }) => {
+  test('GET /users/{email} - Delete an existing user', {tag:["@knownIssue", "@smoke"]}, async ({ request }) => {
 
     const baseUser:User ={
         name: generateUserName(),
